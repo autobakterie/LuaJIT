@@ -290,7 +290,7 @@
 #define LJ_ARCH_NAME		"ppc"
 
 #if !defined(LJ_ARCH_HASFPU)
-#if defined(_SOFT_FLOAT) || defined(_SOFT_DOUBLE)
+#if defined(_SOFT_FLOAT) || defined(_SOFT_DOUBLE) || defined(__NO_FPRS__)
 #define LJ_ARCH_HASFPU		0
 #else
 #define LJ_ARCH_HASFPU		1
@@ -298,7 +298,7 @@
 #endif
 
 #if !defined(LJ_ABI_SOFTFP)
-#if defined(_SOFT_FLOAT) || defined(_SOFT_DOUBLE)
+#if defined(_SOFT_FLOAT) || defined(_SOFT_DOUBLE) || defined(__NO_FPRS__)
 #define LJ_ABI_SOFTFP		1
 #else
 #define LJ_ABI_SOFTFP		0
@@ -492,9 +492,6 @@
 #elif LJ_TARGET_PPC
 #if defined(_LITTLE_ENDIAN) && (!defined(_BYTE_ORDER) || (_BYTE_ORDER == _LITTLE_ENDIAN))
 #error "No support for little-endian PPC32"
-#endif
-#if defined(__NO_FPRS__) && !defined(_SOFT_FLOAT)
-#error "No support for PPC/e500 anymore (use LuaJIT 2.0)"
 #endif
 #elif LJ_TARGET_MIPS32
 #if !((defined(_MIPS_SIM_ABI32) && _MIPS_SIM == _MIPS_SIM_ABI32) || (defined(_ABIO32) && _MIPS_SIM == _ABIO32))
